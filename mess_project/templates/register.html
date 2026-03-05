@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* LEFT SIDE */
+        .left {
+            width: 40%;
+            background-color: #4f6f5e;
+            color: white;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.4);
+            background: transparent;
+            color: white;
+            outline: none;
+        }
+
+        .input-group input::placeholder {
+            color: #ddd;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #f3c45c;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .bottom-text {
+            margin-top: 30px;
+            font-size: 13px;
+        }
+
+        .bottom-text a {
+            color: #f3c45c;
+            text-decoration: none;
+        }
+
+        /* RIGHT SIDE */
+        .right {
+            width: 60%;
+            background-image: url("{{ url_for('static', filename='Login_bg.jpg') }}");
+            background-size: cover;
+            background-position: center;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="left">
+
+    <h1>Create Student Account</h1>
+
+    <form method="POST">
+
+        <div class="input-group">
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
+
+        <div class="input-group">
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <button class="btn" type="submit">Register</button>
+
+    </form>
+
+    <div class="bottom-text">
+        Already have an account?
+        <a href="/">Login</a>
+    </div>
+
+</div>
+
+<div class="right"></div>
+
+</body>
+</html>

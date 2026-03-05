@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* LEFT SIDE */
+        .left {
+            width: 40%;
+            background-color: #4f6f5e;
+            color: white;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 80px;
+        }
+
+        .left h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: transparent;
+            color: white;
+            outline: none;
+        }
+
+        .input-group input::placeholder {
+            color: #ddd;
+        }
+
+        .forgot {
+            font-size: 13px;
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .forgot:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #f3c45c;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .bottom-text {
+            margin-top: 40px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* RIGHT SIDE */
+        .right {
+            width: 60%;
+            background-image: url("{{ url_for('static', filename='Login_bg.jpg') }}");
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+            object-fit: contain;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 40px;
+            right: 60px;
+            color: #ddd;
+            font-size: 16px;
+            text-align: right;
+            display: none;
+        }
+
+        .overlay-text strong {
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .left {
+                width: 50%;
+                padding: 100px 30px;
+                justify-content: flex-start;
+                padding-top: 60px;
+            }
+
+            .logo {
+                font-size: 18px;
+                margin-bottom: 40px;
+            }
+
+            .left h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .right {
+                width: 50%;
+                height: 300px;
+                display: none;
+
+            }
+
+            .overlay-text {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left {
+                padding: 30px 20px;
+                width: 50%;
+                margin-top: 30px;
+            }
+
+            .logo {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+            .left h1 {
+                font-size: 20px;
+            }
+
+            .input-group input {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .bottom-text {
+                font-size: 11px;
+                margin-top: 30px;
+            }
+
+            .right {
+                height: 250px;
+                width: 50%;
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="left">
+
+        <h1>Sign In</h1>
+
+        <form action="/login" method="POST">
+
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Email" required>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <div class="forgot">Forgot Password?</div>
+
+            <button class="btn" type="submit">SIGN IN</button>
+
+        </form>
+
+        <div class="bottom-text">
+            Don’t have an account?
+            <a href="/register" style="color:#f3c45c;">Create Student Account</a>
+        </div>
+
+    </div>
+
+    <div class="right">
+        <div class="overlay-text">
+            A new way to experience <strong>Real Estate</strong><br>
+            in the infinite virtual space.
+        </div>
+
+    </div>
+
+</body>
+
+</html>

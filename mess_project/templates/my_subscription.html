@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Subscription</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            display: flex;
+            font-family: Segoe UI;
+            background: #f1f5f9;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 230px;
+            background-color: #1f2937;
+            color: white;
+            padding: 25px;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 40px;
+            font-size: 22px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 18px 0;
+        }
+
+        .sidebar ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #374151;
+            color: white;
+        }
+
+        .main {
+            flex: 1;
+            padding: 40px;
+            margin-left: 270px;
+        }
+
+        .container {
+            max-width: 1000px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .plan-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+            margin: 0;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommended {
+            border: 3px solid #6366f1;
+            padding: 20px;
+        }
+
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #4f46e5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f4f6;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>Mess System</h2>
+        <ul>
+            <li>
+                <a href="/student_dashboard">
+                    <i class="fa fa-home"></i> Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="/my_subscription">
+                    <i class="fa fa-list"></i> My Subscription
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    <i class="fa fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="container">
+
+            <h2>My Subscription</h2>
+
+            {% if active %}
+            <div class="card">
+                <p class="success">Active Plan: {{ active.plan_name }}</p>
+                <p>Valid Till: {{ active.end_date }}</p>
+                <p><strong>{{ days_left }} Days Remaining</strong></p>
+
+                {% if days_left < 15 %} <button onclick="window.location.href='/renew_plan'">
+                    Renew Plan
+                    </button>
+                    {% endif %}
+            </div>
+            {% elif pending %}
+            <div class="card">
+                <p class="pending">
+                    Your request for {{ pending.plan_name }} is Pending Approval.
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Plan Benefits -->
+            <div class="card">
+                <h3>Plan Benefits</h3>
+                <ul>
+                    <li>✔ 2 Meals Daily</li>
+                    <li>✔ Sunday Special Meal</li>
+                    <li>✔ Hygienic Kitchen</li>
+                    <li>✔ RO Drinking Water</li>
+                </ul>
+            </div>
+
+            <!-- Available Plans -->
+            {% if not active and not pending %}
+            <h3>Choose a Plan</h3>
+            <div class="plan-grid">
+                {% for plan in plans %}
+                <div class="plan-card {% if plan.plan_name == '6 Months' %}recommended{% endif %}">
+                    <h3>{{ plan.plan_name }}</h3>
+                    <p>₹{{ plan.price }}</p>
+                    <p>{{ plan.duration_days }} Days</p>
+
+                    {% if plan.plan_name == '6 Months' %}
+                    <p style="color:#6366f1;"><strong>Most Popular</strong></p>
+                    {% endif %}
+
+                    <form method="POST" action="/buy_plan">
+                        <input type="hidden" name="plan_id" value="{{ plan.plan_id }}">
+                        <button>Request Plan</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Subscription History -->
+            <div class="card">
+                <h3>Subscription History</h3>
+                <table>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for h in history %}
+                    <tr>
+                        <td>{{ h.plan_name }}</td>
+                        <td>{{ h.start_date }}</td>
+                        <td>{{ h.end_date }}</td>
+                        <td>{{ h.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
